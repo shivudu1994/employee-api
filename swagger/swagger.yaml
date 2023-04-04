@@ -1,0 +1,109 @@
+swagger: '2.0'
+info:
+  title: Employee API
+  version: '1.0'
+basePath: /employees
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /:
+    get:
+      summary: Get all employees
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Employee'
+    post:
+      summary: Create an employee
+      parameters:
+        - in: body
+          name: employee
+          schema:
+            $ref: '#/definitions/Employee'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Employee'
+        400:
+          description: Bad Request
+
+  /{uuid}:
+    get:
+      summary: Get an employee by ID
+      parameters:
+        - in: path
+          name: uuid
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Employee'
+        404:
+          description: Not Found
+        400:
+          description: Bad Request
+    put:
+      summary: Update an employee by ID
+      parameters:
+        - in: path
+          name: uuid
+          type: string
+          required: true
+        - in: body
+          name: employee
+          schema:
+            $ref: '#/definitions/Employee'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Employee'
+        404:
+          description: Not Found
+        400:
+          description: Bad Request
+    delete:
+      summary: Delete an employee by ID
+      parameters:
+        - in: path
+          name: uuid
+          type: string
+          required: true
+      responses:
+        204:
+          description: No Content
+        404:
+          description: Not Found
+        400:
+          description: Bad Request
+
+definitions:
+  Employee:
+    type: object
+    properties:
+      id:
+        type: string
+        format: uuid
+      fullName:
+        type: string
+      email:
+        type: string
+        format: email
+      birthday:
+        type: string
+        format: date
+      hobbies:
+        type: array
+        items:
+          type: string
